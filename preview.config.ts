@@ -1,51 +1,71 @@
-export interface PreviewVersion {
-  /** Title shown in SMS/iMessage preview card */
+export const LOCALES = ['en', 'es'] as const
+export type Locale = (typeof LOCALES)[number]
+
+export interface LocaleContent {
   title: string
-  /** Description shown below the title in preview card */
   description: string
-  /** Emoji displayed prominently in the OG image */
-  emoji: string
-  /** Background color for the OG image (hex) */
-  bgColor: string
-  /** Optional: content shown when someone actually visits the page */
   pageContent?: string
 }
 
+export interface PreviewVersion {
+  en: LocaleContent
+  es: LocaleContent
+  /** Emoji shown in the OG image */
+  emoji: string
+  /** Background hex color for the OG image */
+  bgColor: string
+}
+
 /**
- * HOW TO USE
- * ----------
- * 1. Edit or add versions below
- * 2. Push to Vercel (redeploy)
- * 3. Share the URL with ?v=<key> to bust SMS cache
+ * URL PATTERNS
+ * ─────────────────────────────────────────────
+ *  /              → en, default version
+ *  /123           → en (default), id 123
+ *  /en/123        → en, id 123
+ *  /es/123        → es, id 123
+ *  /es/123?v=v2   → es, id 123, version v2
  *
- * Examples:
- *   https://yoursite.com          → uses "default"
- *   https://yoursite.com?v=v2     → uses "v2"
- *   https://yoursite.com?v=v3     → uses "v3"
- *
- * iOS/Android SMS apps cache previews per URL, so changing ?v= forces
- * them to re-fetch the latest preview metadata.
+ * CACHE BUSTING
+ *  Add a new version key below, redeploy, share with ?v=<key>
+ *  iMessage/Android see a new URL and re-fetch the preview.
  */
 export const previews: Record<string, PreviewVersion> = {
   default: {
-    title: "My Link",
-    description: "Tap to check it out.",
+    en: {
+      title: "Hello World",
+      description: "Check this out.",
+      pageContent: "Welcome!",
+    },
+    es: {
+      title: "Hola Mundo",
+      description: "Échale un vistazo.",
+      pageContent: "¡Bienvenido!",
+    },
     emoji: "🔗",
     bgColor: "#0f172a",
-    pageContent: "Welcome! You can customize this in preview.config.ts",
   },
   v2: {
-    title: "New Update! 🚀",
-    description: "Something exciting just dropped. Check it out.",
+    en: {
+      title: "New Update!",
+      description: "Something exciting just dropped.",
+    },
+    es: {
+      title: "¡Nueva actualización!",
+      description: "Algo emocionante acaba de llegar.",
+    },
     emoji: "🚀",
     bgColor: "#1e1b4b",
-    pageContent: "Version 2 is live!",
   },
   v3: {
-    title: "Big Announcement 🎉",
-    description: "You won't believe what we just launched.",
+    en: {
+      title: "Big Announcement",
+      description: "You won't believe what we just launched.",
+    },
+    es: {
+      title: "Gran anuncio",
+      description: "No creerás lo que acabamos de lanzar.",
+    },
     emoji: "🎉",
     bgColor: "#14532d",
-    pageContent: "Version 3 – the big reveal!",
   },
 }

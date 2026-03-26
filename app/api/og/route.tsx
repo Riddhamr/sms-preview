@@ -1,12 +1,18 @@
 import { ImageResponse } from 'next/og'
-import { previews } from '../../../preview.config'
+import { previews, LOCALES, type Locale } from '../../../preview.config'
 
 export const runtime = 'edge'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const version = searchParams.get('v') || 'default'
+  const localeParam = searchParams.get('locale') || 'en'
+  const locale: Locale = (LOCALES as readonly string[]).includes(localeParam)
+    ? (localeParam as Locale)
+    : 'en'
+
   const preview = previews[version] ?? previews['default']
+  const content = preview[locale]
 
   return new ImageResponse(
     (
@@ -51,7 +57,7 @@ export async function GET(request: Request) {
             display: 'flex',
           }}
         >
-          {preview.title}
+          {content.title}
         </div>
 
         <div
@@ -64,7 +70,7 @@ export async function GET(request: Request) {
             display: 'flex',
           }}
         >
-          {preview.description}
+          {content.description}
         </div>
       </div>
     ),
