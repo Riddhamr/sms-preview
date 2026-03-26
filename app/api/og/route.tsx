@@ -3,9 +3,9 @@ import { ImageResponse } from "next/og";
 export const runtime = "edge";
 
 const PREVIEW_IMAGES: Record<string, { path: string; w: number; h: number }> = {
-  default: { path: "/confirm-pharmacy-og-preview.png", w: 265, h: 88 },
-  ins: { path: "/need-ins-og-preview.png", w: 265, h: 82 },
-  upd: { path: "/med-updates-og-preview.png", w: 265, h: 88 },
+  default: { path: "/confirm-pharmacy-og-preview-2x.png", w: 530, h: 176 },
+  ins: { path: "/need-ins-og-preview-2x.png", w: 530, h: 164 },
+  upd: { path: "/med-updates-og-preview-2x.png", w: 530, h: 164 },
 };
 
 const OUTPUT_WIDTH = 1200;
