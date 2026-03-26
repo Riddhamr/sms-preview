@@ -32,17 +32,17 @@ export interface PreviewVersion {
 export const previews: Record<string, PreviewVersion> = {
   default: {
     en: {
-      title: "Hello World",
-      description: "Check this out.",
-      pageContent: "Welcome!",
+      title: "Confirm Your Pharmacy",
+      description: "Tap to confirm your pharmacy.",
+      pageContent: "Please confirm your pharmacy.",
     },
     es: {
-      title: "Hola Mundo",
-      description: "Échale un vistazo.",
-      pageContent: "¡Bienvenido!",
+      title: "Confirma Tu Farmacia",
+      description: "Toca para confirmar tu farmacia.",
+      pageContent: "Por favor confirma tu farmacia.",
     },
-    emoji: "🔗",
-    bgColor: "#0f172a",
+    emoji: "💊",
+    bgColor: "#f6f7f8",
   },
   v2: {
     en: {
