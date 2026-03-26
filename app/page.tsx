@@ -12,18 +12,16 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const preview = previews[version] ?? previews['default']
 
   return {
-    title: preview.title,
-    description: preview.description,
+    // Empty title so SMS apps show nothing above the image
+    title: { absolute: ' ' },
     openGraph: {
-      title: preview.title,
-      description: preview.description,
-      images: [{ url: `/api/og?v=${version}`, width: 1200, height: 630, alt: preview.title }],
+      title: ' ',
+      images: [{ url: `/api/og?v=${version}`, width: 1200, height: 630, alt: '' }],
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: preview.title,
-      description: preview.description,
+      title: ' ',
       images: [`/api/og?v=${version}`],
     },
   }

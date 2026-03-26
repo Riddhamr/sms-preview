@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
+  title: { absolute: ' ' },
   // metadataBase makes relative OG image URLs resolve to the right domain.
   // Set NEXT_PUBLIC_BASE_URL in Vercel env vars to your production URL.
   metadataBase: new URL(
