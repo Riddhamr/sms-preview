@@ -22,6 +22,7 @@ export async function generateMetadata({ params, searchParams }: SmsPreviewHashP
   return {
     title: 'ClearRx',
     openGraph: {
+      title: ' ',
       images: [`https://clearrx.co/sms-preview/${imageLocale}/${imageName}`],
     },
   };
