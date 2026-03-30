@@ -1,31 +1,43 @@
-import type { Metadata } from 'next'
-import { LOCALES, type Locale } from '../../preview.config'
-import { buildMetadata } from '../../lib/metadata'
-import PreviewPage from '../components/PreviewPage'
+import { Metadata } from 'next';
+import Image from 'next/image';
 
-type Props = {
-  params: Promise<{ locale: string }>
-  searchParams: Promise<{ v?: string }>
+const SMS_TYPE_IMAGES: Record<string, string> = {
+  ins: 'upload-insurance.png',
+  upd: 'medicine-update.png',
+  confirm: 'confirm-pharmacy.png',
+};
+
+const SUPPORTED_LOCALES = new Set(['en', 'es', 'ru']);
+
+interface SmsPreviewPageProps {
+  searchParams: Promise<{ type?: string; locale?: string }>;
 }
 
-/** If the segment isn't a valid locale (e.g. /123), default to 'en'. */
-function resolveLocale(raw: string): Locale {
-  return (LOCALES as readonly string[]).includes(raw) ? (raw as Locale) : 'en'
+export async function generateMetadata({ searchParams }: SmsPreviewPageProps): Promise<Metadata> {
+  const { type, locale } = await searchParams;
+  const imageLocale = locale && SUPPORTED_LOCALES.has(locale) ? locale : 'en';
+  const imageName = (type && SMS_TYPE_IMAGES[type]) ?? 'confirm-pharmacy.png';
+
+  return {
+    title: 'ClearRx',
+    openGraph: {
+      images: [`https://clearrx.co/sms-preview/${imageLocale}/${imageName}`],
+    },
+  };
 }
 
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
-  const { locale: raw } = await params
-  const { v } = await searchParams
-  return buildMetadata(resolveLocale(raw), undefined, v || 'default')
-}
+export default async function SmsPreviewPage({ searchParams }: SmsPreviewPageProps) {
+  const { type, locale } = await searchParams;
+  const imageLocale = locale && SUPPORTED_LOCALES.has(locale) ? locale : 'en';
+  const imageName = (type && SMS_TYPE_IMAGES[type]) ?? 'confirm-pharmacy.png';
 
-export default async function LocalePage({ params, searchParams }: Props) {
-  const { locale: raw } = await params
-  const { v } = await searchParams
-  const locale = resolveLocale(raw)
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-
-  return <PreviewPage locale={locale} version={v || 'default'} baseUrl={baseUrl} />
+  return (
+    <Image
+      src={`/sms-preview/${imageLocale}/${imageName}`}
+      alt="SMS preview"
+      width={1200}
+      height={630}
+      priority
+    />
+  );
 }
