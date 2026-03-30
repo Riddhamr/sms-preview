@@ -10,12 +10,14 @@ const SMS_TYPE_IMAGES: Record<string, string> = {
 const SUPPORTED_LOCALES = new Set(['en', 'es', 'ru']);
 
 interface SmsPreviewPageProps {
-  searchParams: Promise<{ type?: string; locale?: string }>;
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ type?: string }>;
 }
 
-export async function generateMetadata({ searchParams }: SmsPreviewPageProps): Promise<Metadata> {
-  const { type, locale } = await searchParams;
-  const imageLocale = locale && SUPPORTED_LOCALES.has(locale) ? locale : 'en';
+export async function generateMetadata({ params, searchParams }: SmsPreviewPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const { type } = await searchParams;
+  const imageLocale = SUPPORTED_LOCALES.has(locale) ? locale : 'en';
   const imageName = (type && SMS_TYPE_IMAGES[type]) ?? 'confirm-pharmacy.png';
 
   return {
@@ -26,9 +28,10 @@ export async function generateMetadata({ searchParams }: SmsPreviewPageProps): P
   };
 }
 
-export default async function SmsPreviewPage({ searchParams }: SmsPreviewPageProps) {
-  const { type, locale } = await searchParams;
-  const imageLocale = locale && SUPPORTED_LOCALES.has(locale) ? locale : 'en';
+export default async function SmsPreviewPage({ params, searchParams }: SmsPreviewPageProps) {
+  const { locale } = await params;
+  const { type } = await searchParams;
+  const imageLocale = SUPPORTED_LOCALES.has(locale) ? locale : 'en';
   const imageName = (type && SMS_TYPE_IMAGES[type]) ?? 'confirm-pharmacy.png';
 
   return (
