@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 
 const SMS_TYPE_IMAGES: Record<string, string> = {
   ins: 'upload-insurance.png',
@@ -9,12 +8,12 @@ const SMS_TYPE_IMAGES: Record<string, string> = {
 
 const SUPPORTED_LOCALES = new Set(['en', 'es', 'ru']);
 
-interface SmsPreviewPageProps {
-  params: Promise<{ locale: string }>;
+interface SmsPreviewHashPageProps {
+  params: Promise<{ locale: string; hash: string }>;
   searchParams: Promise<{ type?: string }>;
 }
 
-export async function generateMetadata({ params, searchParams }: SmsPreviewPageProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: SmsPreviewHashPageProps): Promise<Metadata> {
   const { locale } = await params;
   const { type } = await searchParams;
   const imageLocale = SUPPORTED_LOCALES.has(locale) ? locale : 'en';
@@ -28,19 +27,19 @@ export async function generateMetadata({ params, searchParams }: SmsPreviewPageP
   };
 }
 
-export default async function SmsPreviewPage({ params, searchParams }: SmsPreviewPageProps) {
-  const { locale } = await params;
+export default async function SmsPreviewHashPage({ params, searchParams }: SmsPreviewHashPageProps) {
+  const { locale, hash } = await params;
   const { type } = await searchParams;
   const imageLocale = SUPPORTED_LOCALES.has(locale) ? locale : 'en';
   const imageName = (type && SMS_TYPE_IMAGES[type]) ?? 'confirm-pharmacy.png';
 
   return (
-    <Image
-      src={`/sms-preview/${imageLocale}/${imageName}`}
-      alt="SMS preview"
-      width={1200}
-      height={630}
-      priority
-    />
+    <div style={{ padding: 32, fontFamily: 'monospace' }}>
+      <p><strong>locale:</strong> {imageLocale}</p>
+      <p><strong>hash:</strong> {hash}</p>
+      <p><strong>type:</strong> {type ?? '(none)'}</p>
+      <p><strong>image:</strong> {imageName}</p>
+      <p><strong>og:image:</strong> https://clearrx.co/sms-preview/{imageLocale}/{imageName}</p>
+    </div>
   );
 }

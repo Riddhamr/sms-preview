@@ -1,0 +1,17 @@
+{
+  "smsPreview": {
+    "ins": {
+      "title": "Subir seguro",
+      "altText": "Vista previa de SMS para subir seguro"
+    },
+    "upd": {
+      "title": "Actualización de medicamento",
+      "altText": "Vista previa de SMS de actualización de medicamento"
+    },
+    "confirm": {
+      "title": "Confirmar farmacia",
+      "altText": "Vista previa de SMS para confirmar farmacia"
+    },
+    "defaultAlt": "Vista previa de SMS"
+  }
+}

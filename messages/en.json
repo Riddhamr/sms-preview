@@ -1,0 +1,17 @@
+{
+  "smsPreview": {
+    "ins": {
+      "title": "Upload Insurance",
+      "altText": "Upload insurance SMS preview"
+    },
+    "upd": {
+      "title": "Medicine Update",
+      "altText": "Medicine update SMS preview"
+    },
+    "confirm": {
+      "title": "Confirm Pharmacy",
+      "altText": "Confirm pharmacy SMS preview"
+    },
+    "defaultAlt": "SMS preview"
+  }
+}
